@@ -9,7 +9,6 @@ export default defineConfig({
     host: true,
     strictPort: true,
   },
-  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg'],
   optimizeDeps: {
     exclude: ['lucide-react'],
   },

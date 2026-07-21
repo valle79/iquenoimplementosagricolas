@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Import client logos
 import novolizLogo from '../assets/grupoandina.jpg';
@@ -12,6 +13,7 @@ import fallcreekLogo from '../assets/fallcreek.png';
 import natuperuLogo from '../assets/natuperu.png';
 
 const Clients: React.FC = () => {
+  const { t } = useTranslation();
   const clientLogos = [
     { src: novolizLogo, alt: 'Grupo Andina' },
     { src: pozoAltoLogo, alt: 'Vivero Arona' },
@@ -27,12 +29,11 @@ const Clients: React.FC = () => {
   return (
     <section className="py-20 bg-tractor-200 text-white">
       <div className="max-w-7xl mx-auto px-4 text-center ">
-        <h2 className="text-4xl sm:text-5xl font-extrabold mb-6 animate-pulse">
-          Nuestros Clientes
+        <h2 className="text-4xl sm:text-5xl font-extrabold mb-6">
+          {t('clients.title')}
         </h2>
-        <p className="text-lg sm:text-xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed animate-pulse">
-          Brindamos soluciones integrales en el sector agroindustrial e industria en general.
-          Innovamos, diseñamos y fabricamos repuestos, implementos y maquinaria agrícola a la medida.
+        <p className="text-lg sm:text-xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
+          {t('clients.subtitle')}
         </p>
 
         {/* Carrusel infinito con animación horizontal */}

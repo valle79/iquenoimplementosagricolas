@@ -1,33 +1,24 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import imagelorena from '../assets/lorena.png';
 import imagemaicol from '../assets/maicol.png';
 import imagemanzo from '../assets/richiboy.jpg';
 
-const testimonials = [
-  {
-    id: 1,
-    name: 'Carlos Rodríguez',
-    company: 'Industrias del Sur',
-    content: 'Excelente servicio y calidad en la fabricación de nuestras máquinas industriales. El equipo de El Iqueño SAC demostró gran profesionalismo.',
-    image: imagemaicol
-  },
-  {
-    id: 2,
-    name: 'María González',
-    company: 'Metalúrgica Central',
-    content: 'Trabajamos con El Iqueño SAC en varios proyectos y siempre entregan a tiempo y con la calidad prometida.',
-    image: imagelorena
-  },
-  {
-    id: 3,
-    name: 'Jorge Mendoza',
-    company: 'Agricola del Norte',
-    content: 'Su conocimiento y experiencia en soluciones para el sector agrícola son excepcionales. Gracias a sus implementos de alta calidad, hemos optimizado nuestras labores en campo, logrando mayor eficiencia y mejores resultados en cada campaña.',
-    image: imagemanzo
-  }
+const testimonialMeta = [
+  { id: 1, image: imagemaicol, key: 'testimonialData.testimonial1' },
+  { id: 2, image: imagelorena, key: 'testimonialData.testimonial2' },
+  { id: 3, image: imagemanzo, key: 'testimonialData.testimonial3' },
 ];
 
 const Testimonials: React.FC = () => {
+  const { t } = useTranslation();
+  const testimonials = testimonialMeta.map(tm => ({
+    ...tm,
+    name: t(`${tm.key}.name`),
+    company: t(`${tm.key}.company`),
+    content: t(`${tm.key}.content`),
+  }));
+
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {testimonials.map(testimonial => (

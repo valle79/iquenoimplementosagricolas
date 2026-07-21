@@ -1,31 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { X, Tag, Clock, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { createClient } from '@supabase/supabase-js';
+import { useTranslation } from 'react-i18next';
+import { supabase } from '../../lib/supabaseClient';
 
-// ============================================
-// CONFIGURACIÓN DE SUPABASE
-// ============================================
-const supabase = createClient(
-  'https://rqouqtdgxsksueyskdow.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxb3VxdGRneHNrc3VleXNrZG93Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2MjgxNTcsImV4cCI6MjA2OTIwNDE1N30.7s3i-7gJw-MiI0473eR_3gVX5TrskpJ1ivZKglfeMk0'
-);
+import type { PromoData } from '../types';
 
 interface PromoModalProps {
   onClose: () => void;
 }
 
-interface PromoData {
-  id: string;
-  title: string;
-  subtitle: string;
-  features: string;
-  image: string;
-  validUntil: string;
-  mediaType: 'image' | 'video';
-}
-
 const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [promos, setPromos] = useState<PromoData[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -70,7 +56,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
       if (error) throw error;
 
       if (data && data.length > 0) {
-        const formattedPromos = data.map((promo: any) => ({
+        const formattedPromos: PromoData[] = data.map((promo) => ({
           id: promo.id,
           title: promo.title,
           subtitle: promo.subtitle || '',
@@ -98,7 +84,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
     const currentPromo = promos[currentIndex];
     const message = encodeURIComponent(`Hola! Me interesa la oferta de ${currentPromo.title}`);
     const whatsappUrl = `https://wa.me/51958840599?text=${message}`;
-    window.open(whatsappUrl, '_blank');
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     handleClose();
   };
 
@@ -120,7 +106,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className="fixed inset-0 z-[99999999999999999] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -211,7 +197,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                   >
                     <div className="flex items-center space-x-1 md:space-x-1.5">
                       <Tag className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                      <span className="text-base md:text-xl font-black">PROMOCIÓN</span>
+                      <span className="text-base md:text-xl font-black">{t('promo.badge')}</span>
                     </div>
                   </motion.div>
 
@@ -224,7 +210,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                   >
                     <div className="flex items-center space-x-1 md:space-x-1.5 text-xs md:text-sm">
                       <Clock className="w-3 h-3 md:w-3.5 md:h-3.5 text-tractor-200" />
-                      <span className="text-gray-700 font-semibold">Válido: {currentPromo.validUntil}</span>
+                      <span className="text-gray-700 font-semibold">{t('promo.validUntil')} {currentPromo.validUntil}</span>
                     </div>
                   </motion.div>
 
@@ -255,7 +241,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                         <Tag className="w-3 h-3 md:w-4 md:h-4" />
                       </motion.div>
                       <span className="text-[10px] md:text-xs font-black uppercase tracking-wider">
-                        ¡Oferta por tiempo limitado!
+                        {t('promo.limitedTime')}
                       </span>
                       <motion.div
                         animate={{ scale: [1, 1.2, 1] }}
@@ -277,7 +263,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                     whileTap={{ scale: 0.95 }}
                   >
                     <MessageCircle className="w-4 h-4" />
-                    <span>Comprar</span>
+                    <span>{t('promo.buy')}</span>
                   </motion.button>
                 </div>
 
@@ -290,7 +276,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                     transition={{ delay: 0.2 }}
                   >
                     <span className="inline-block bg-gradient-to-r from-machinery-200 to-machinery-300 text-tractor-700 px-2.5 py-0.5 md:px-3 md:py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-md">
-                      ¡OFERTA ESPECIAL!
+                      {t('promo.offerLabel')}
                     </span>
                   </motion.div>
 
@@ -333,7 +319,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                       className="w-full bg-tractor-200 text-white px-5 py-3 md:px-6 md:py-3.5 rounded-xl font-bold text-base md:text-lg hover:bg-tractor-300 hover:shadow-2xl transform hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-2 group"
                     >
                       <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                      <span>Comprar</span>
+                      <span>{t('promo.buy')}</span>
                     </button>
                   </motion.div>
                 </div>
@@ -346,14 +332,14 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                 <button
                   onClick={goToPrevious}
                   className="absolute left-1 md:left-2 top-1/2 -translate-y-1/2 z-30 bg-white/80 md:bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all hover:scale-110"
-                  aria-label="Anterior"
+                  aria-label={t('promo.previous')}
                 >
                   <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
                 </button>
                 <button
                   onClick={goToNext}
                   className="absolute right-1 md:right-2 top-1/2 -translate-y-1/2 z-30 bg-white/80 md:bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all hover:scale-110"
-                  aria-label="Siguiente"
+                  aria-label={t('promo.next')}
                 >
                   <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
                 </button>

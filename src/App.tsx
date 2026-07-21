@@ -4,6 +4,7 @@ import ContactForm from './components/ContactForm';
 import MachineGallery from './components/MachineGallery';
 import SparePartsGallery from './components/SparePartsGallery';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import Testimonials from './components/Testimonials';
 import Alert from './components/Alert';
 import VideoGallery from './components/VideoGallery';
@@ -12,7 +13,9 @@ import Map from './components/Map';
 import Clients from './components/Clients';
 import Logo from './components/Logo';
 import HeroCarousel from './components/HeroCarousel';
+import AnimatedCounter from './components/AnimatedCounter';
 import PromoModal from './components/PromoModal';
+import LanguageSwitcher from './components/LanguageSwitcher';
 import image1 from './assets/portada1.jpg';
 import image2 from './assets/portada2.jpg';
 import image3 from './assets/portada3.jpg';
@@ -24,20 +27,21 @@ import { Bot } from "lucide-react"; // 👈 importa el icono de robot
 declare global {
   interface Window {
     chatbase?: {
-      (method: string, ...args: any[]): void;
-      q?: any[];
+      (method: string, ...args: unknown[]): void;
+      q?: unknown[];
       getState?: () => string;
     };
   }
 }
 
 function App() {
+  const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [isChatbotLoaded, setIsChatbotLoaded] = useState(false);
   const [chatbotError, setChatbotError] = useState<string | null>(null);
   const [alertMessage, setAlertMessage] = useState('');
-  const [searchQuery] = useState('');
+
   const [showTopBar, setShowTopBar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showPromoModal, setShowPromoModal] = useState(false);
@@ -52,7 +56,7 @@ function App() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleContactSuccess = () => {
-    setAlertMessage('Mensaje enviado correctamente. Nos pondremos en contacto pronto.');
+    setAlertMessage(t('contact.formSuccess'));
     setShowAlert(true);
     setTimeout(() => setShowAlert(false), 5000);
   };
@@ -70,7 +74,7 @@ function App() {
         get(target, prop) {
           if (prop === 'q') return target.q;
           if (typeof prop === 'string') {
-            return (...args: any[]) => target(prop, ...args);
+            return (...args: unknown[]) => target(prop, ...args);
           }
           return undefined;
         },
@@ -236,13 +240,13 @@ function App() {
 
 
   const menuItems = [
-    { href: '#inicio', label: 'Inicio' },
-    { href: '#quienes-somos', label: 'Quiénes Somos' },
-    { href: '#maquinarias', label: 'Maquinarias' },
-    { href: '#repuestos', label: 'Repuestos' },
-    { href: '#videos', label: 'Videos' },
-    { href: '#testimonios', label: 'Testimonios' },
-    { href: '#asesores', label: 'Asesores' },
+    { href: '#inicio', label: t('nav.home') },
+    { href: '#quienes-somos', label: t('nav.about') },
+    { href: '#maquinarias', label: t('nav.machinery') },
+    { href: '#repuestos', label: t('nav.spareparts') },
+    { href: '#videos', label: t('nav.videos') },
+    { href: '#testimonios', label: t('nav.testimonials') },
+    { href: '#asesores', label: t('nav.advisors') },
   ];
 
   // Variantes de animación para secciones (entrada desde lados alternados)
@@ -280,24 +284,6 @@ function App() {
       scale: 1.05,
       boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
       transition: { duration: 0.4, ease: 'easeOut' },
-    },
-  };
-
-  // Animación para el número de teléfono
-  const phoneVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: 'easeOut',
-      },
-    },
-    hover: {
-      scale: 1.05,
-      color: '#FBBF24', // machinery-200
-      transition: { duration: 0.3, ease: 'easeOut' },
     },
   };
 
@@ -340,6 +326,21 @@ useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  // Prevenir scroll del body cuando el menú móvil está abierto
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [isMenuOpen]);
 
@@ -439,18 +440,19 @@ useEffect(() => {
               </div>
             </div>
 
-            {/* CTA Button - Moderno */}
-            <div className="hidden lg:flex items-center">
+            {/* Language Switcher + CTA */}
+            <div className="hidden lg:flex items-center gap-3">
+              <LanguageSwitcher />
               <motion.a
                 href="#contacto"
-                className="px-8 py-3 bg-tractor-200 text-white rounded-2xl font-bold hover:bg-tractor-300 hover:shadow-xl transform hover:scale-105 transition-all duration-300 shadow-lg border-2 border-transparent hover:border-tractor-100"                initial={{ opacity: 0, scale: 0.8 }}
+                className="px-5 py-2 bg-tractor-200 text-white rounded-lg font-semibold text-sm hover:bg-tractor-300 transition-all duration-300 shadow-sm"                initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.8 }}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <span className="flex items-center space-x-2">
-                  <span>Contáctanos</span>
+                  <span>{t('nav.contact')}</span>
                   <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -458,7 +460,10 @@ useEffect(() => {
               </motion.a>
             </div>
 
-            {/* Mobile menu button - En blanco */}
+            {/* Mobile: Language Switcher + Menu button */}
+            <div className="lg:hidden flex items-center gap-2">
+              <LanguageSwitcher />
+              {/* Mobile menu button */}
             <motion.div
               className="lg:hidden"
               initial={{ opacity: 0, x: 20 }}
@@ -468,6 +473,7 @@ useEffect(() => {
               <button 
                 onClick={toggleMenu} 
                 className="relative p-3 bg-gray-100 rounded-xl hover:bg-gray-200 transition-all duration-300 group"
+                aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
               >
                 <div className="w-6 h-6 flex flex-col justify-center items-center">
                   <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1'}`}></span>
@@ -476,10 +482,11 @@ useEffect(() => {
                 </div>
               </button>
             </motion.div>
+            </div>
           </div>
         </div>
 
-        {/* Mobile Navigation - Diseño Simple como la imagen */}
+        {/* Mobile Navigation */}
         {isMenuOpen && (
           <motion.div
             className="lg:hidden fixed inset-0 bg-black/50 z-40"
@@ -490,41 +497,48 @@ useEffect(() => {
           >
             <motion.div
               ref={menuRef}
-              className="bg-tractor-200 h-full w-80 max-w-sm shadow-2xl flex flex-col"
+              className="bg-tractor-200 h-full w-64 max-w-sm shadow-xl flex flex-col"
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
             >
-              {/* Logo en caja blanca */}
-              <div className="p-6 flex justify-center">
-                <div className="bg-white rounded-lg p-4 shadow-lg">
-                  <Logo height={60} showText={true} variant="topbar" />
-                </div>
-              </div>
+<div className="relative px-5 pt-6">
+  <div className="flex justify-center">
+    <div className="bg-white rounded-lg p-2">
+      <Logo height={54} showText={true} variant="topbar" />
+    </div>
+  </div>
 
-              {/* Menu Items - Centrados y simples */}
-              <div className="flex-1 px-6 py-4 space-y-6 flex flex-col items-center justify-center">
+  <motion.button
+    onClick={() => setIsMenuOpen(false)}
+    className="absolute top-6 text-white/60 hover:text-white transition-colors"
+    whileTap={{ scale: 0.9 }}
+  >
+    <X className="h-5 w-5" />
+  </motion.button>
+</div>
+
+              <nav className="flex-1 px-4 pt-6 pb-2 space-y-1">
                 {menuItems.map((item, index) => (
                   <motion.a
                     key={item.href}
                     href={item.href}
-                    className="text-white text-xl font-medium hover:text-machinery-200 transition-colors duration-300"
+                    className="block px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg text-sm font-medium transition-all duration-200"
                     onClick={() => setIsMenuOpen(false)}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.2, delay: index * 0.04 }}
                   >
                     {item.label}
                   </motion.a>
                 ))}
-              </div>
+              </nav>
 
-              {/* Botón Contáctanos - Dentro del contenedor */}
-              <div className="p-6">
+              <div className="px-4 pb-5 pt-3 border-t border-white/10">
                 <a
                   href="#contacto"
-                  className="block w-full px-6 py-4 bg-machinery-200 text-tractor-700 rounded-2xl text-center font-bold text-lg hover:bg-machinery-300 transition-all duration-300 shadow-lg"
+                  className="block w-full px-3 py-2 bg-machinery-200 text-tractor-700 text-xs font-semibold rounded-lg text-center hover:bg-machinery-300 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Contáctanos
@@ -565,18 +579,18 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Quiénes Somos
+            {t('about.title')}
           </motion.h2>
-          <motion.h1
+          <motion.h2
             className=" font-bold text-center  text-tractor-200"
             custom={0}
             variants={cardVariants}
             initial="hidden"
-            whileInView="none"
+            whileInView="visible"
             viewport={{ once: true }}
           >
-            Implementos Agrícolas FSI - Soluciones para el Agro Peruano
-          </motion.h1>
+            {t('about.subtitle')}
+          </motion.h2>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <motion.h3
@@ -587,7 +601,7 @@ useEffect(() => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                Nuestra Historia
+                {t('about.historyTitle')}
               </motion.h3>
               <motion.p
                 className="text-gray-600 leading-relaxed"
@@ -597,13 +611,7 @@ useEffect(() => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                FSI Implementos Agrícolas es una empresa peruana que nace como respuesta a la necesidad de
-                todos los agricultores y empresas agroindustriales del país en
-                hacer más fácil la tarea del agricultor y realizarlo en menos
-                tiempo. Más de 30 años de experiencia fabricando maquinaria e
-                implementos agrícolas para el campo peruano a los mejores
-                precios. F.S.I SAC, desarrolla, innova, fabrica implementos y maquinaria
-                agrícola para tractor.
+                {t('about.historyText')}
               </motion.p>
               <motion.h3
                 className="text-2xl font-bold text-tractor-200"
@@ -613,7 +621,7 @@ useEffect(() => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                Nuestra Misión
+                {t('about.missionTitle')}
               </motion.h3>
               <motion.p
                 className="text-gray-600 leading-relaxed"
@@ -623,8 +631,7 @@ useEffect(() => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                Proporcionar implementos agrícolas de la más alta calidad que mejoren la eficiencia y
-                productividad de nuestros clientes, contribuyendo al desarrollo del sector agrícola.
+                {t('about.missionText')}
               </motion.p>
               <div className="grid grid-cols-2 gap-6 mt-8">
                 <motion.div
@@ -636,8 +643,8 @@ useEffect(() => {
                   whileHover="hover"
                   viewport={{ once: true }}
                 >
-                  <h4 className="text-4xl font-bold text-tractor-200 mb-2">30+</h4>
-                  <p className="text-gray-600">Años de Experiencia</p>
+                  <AnimatedCounter target={30} suffix="+" className="text-4xl font-bold text-tractor-200 mb-2" />
+                  <p className="text-gray-600">{t('about.yearsLabel')}</p>
                 </motion.div>
                 <motion.div
                   className="bg-machinery-50 p-6 rounded-xl text-center shadow-md"
@@ -648,8 +655,8 @@ useEffect(() => {
                   whileHover="hover"
                   viewport={{ once: true }}
                 >
-                  <h4 className="text-4xl font-bold text-machinery-200 mb-2">1000+</h4>
-                  <p className="text-gray-600">Clientes Satisfechos</p>
+                  <AnimatedCounter target={1000} suffix="+" className="text-4xl font-bold text-machinery-200 mb-2" />
+                  <p className="text-gray-600">{t('about.clientsLabel')}</p>
                 </motion.div>
               </div>
             </div>
@@ -657,7 +664,7 @@ useEffect(() => {
               <div className="space-y-4">
                 <motion.img
                   src={image1}
-                  alt="Tractor en campo"
+                  alt="Cosechadora y maquinaria agrícola en campo peruano"
                   className="rounded-xl shadow-lg"
                   custom={6}
                   variants={cardVariants}
@@ -667,7 +674,7 @@ useEffect(() => {
                 />
                 <motion.img
                   src={image4}
-                  alt="Implemento agrícola"
+                  alt="Picadora e implemento agrícola FSI SAC"
                   className="rounded-xl shadow-lg"
                   custom={7}
                   variants={cardVariants}
@@ -679,7 +686,7 @@ useEffect(() => {
               <div className="space-y-4 mt-8">
                 <motion.img
                   src={image2}
-                  alt="Trabajo en campo"
+                  alt="Cosechadora de papa en acción - FSI SAC"
                   className="rounded-xl shadow-lg"
                   custom={8}
                   variants={cardVariants}
@@ -689,7 +696,7 @@ useEffect(() => {
                 />
                 <motion.img
                   src={image3}
-                  alt="Trabajo en campo"
+                  alt="Desbrozadora y equipos agrícolas en Perú"
                   className="rounded-xl shadow-lg"
                   custom={9}
                   variants={cardVariants}
@@ -720,26 +727,26 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Nuestros Servicios
+            {t('services.title')}
           </motion.h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 icon: <Target className="h-6 w-6 text-machinery-50" />,
-                title: 'Fabricación',
-                description: 'Fabricamos implementos agrícolas a medida, adaptados a las necesidades específicas de cada cliente.',
+                title: t('services.fabrication'),
+                description: t('services.fabricationDesc'),
                 bg: 'bg-tractor-200',
               },
               {
                 icon: <Building className="h-6 w-6 text-machinery-50" />,
-                title: 'Mantenimiento',
-                description: 'Servicio técnico especializado y mantenimiento preventivo para mantener su maquinaria en óptimas condiciones.',
+                title: t('services.maintenance'),
+                description: t('services.maintenanceDesc'),
                 bg: 'bg-machinery-200',
               },
               {
                 icon: <Users className="h-6 w-6 text-machinery-50" />,
-                title: 'Asesoría',
-                description: 'Asesoramiento técnico personalizado para la selección y uso óptimo de implementos agrícolas.',
+                title: t('services.advisory'),
+                description: t('services.advisoryDesc'),
                 bg: 'bg-tractor-200',
               },
             ].map((service, index) => (
@@ -782,7 +789,7 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Nuestros Productos
+            {t('products.title')}
           </motion.h2>
           <motion.p
             className="text-center text-gray-600 mb-12 max-w-2xl mx-auto"
@@ -792,10 +799,9 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Ofrecemos una amplia gama de implementos como: cosechadoras, picadoras, cultivadoras, abonadoras, y entre otros equipos diseñados para tareas específicas del sector agrícola.
-            Cada implemento es cuidadosamente fabricado para asegurar un rendimiento óptimo y una larga vida útil, incluso en terrenos exigentes.
+            {t('products.description')}
           </motion.p>
-          <MachineGallery searchQuery={searchQuery} />
+          <MachineGallery />
         </div>
       </motion.section>
       {/* Spare Parts Section */}
@@ -817,7 +823,7 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Nuestros Repuestos
+            {t('spareParts.title')}
           </motion.h2>
           <motion.p
             className="text-center text-gray-600 mb-12 max-w-2xl mx-auto"
@@ -827,9 +833,9 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Descubre una amplia gama de repuestos de alta calidad para mantener tus equipos agrícolas en óptimas condiciones. Garantizamos durabilidad y compatibilidad.
+            {t('spareParts.description')}
           </motion.p>
-          <SparePartsGallery searchQuery={searchQuery} />
+          <SparePartsGallery />
         </div>
       </motion.section>
       {/* CTA Section */}
@@ -841,7 +847,7 @@ useEffect(() => {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <div className="max-w-7xl mx-auto px-4 text-center animate-pulse">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <motion.h2
             className="text-3xl font-extrabold text-white mb-6"
             custom={0}
@@ -850,7 +856,7 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            ¿Necesitas un implemento específico?
+            {t('cta.title')}
           </motion.h2>
           <motion.p
             className="text-tractor-50 text-xl mb-8"
@@ -860,7 +866,7 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Contáctanos y te ayudaremos a encontrar la solución perfecta para tu necesidad
+            {t('cta.subtitle')}
           </motion.p>
           <motion.a
             href="#contacto"
@@ -872,7 +878,7 @@ useEffect(() => {
             whileHover="hover"
             viewport={{ once: true }}
           >
-            Solicitar Cotización
+            {t('cta.button')}
             <ChevronRight className="ml-2 h-5 w-5" />
           </motion.a>
         </div>
@@ -896,7 +902,7 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Videos de Nuestros Proyectos
+            {t('videos.title')}
           </motion.h2>
           <VideoGallery />
         </div>
@@ -920,7 +926,7 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Testimonios de Clientes
+            {t('testimonials.title')}
           </motion.h2>
           <Testimonials />
         </div>
@@ -944,7 +950,7 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Personal Administrativo
+            {t('advisors.title')}
           </motion.h2>
           <Advisors />
         </div>
@@ -979,7 +985,7 @@ useEffect(() => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Contáctanos
+            {t('contact.title')}
           </motion.h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div>
@@ -1062,7 +1068,7 @@ useEffect(() => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                Expertos en soluciones metalúrgicas industriales.
+                {t('footer.description')}
               </motion.p>
             </div>
             <div>
@@ -1074,7 +1080,7 @@ useEffect(() => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                Estamos asociados con la camara de comercio de lima.
+                {t('footer.chamberAssociation')}
               </motion.p>
               <br />
               <motion.h3
@@ -1097,7 +1103,7 @@ useEffect(() => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                Enlaces Rápidos
+                {t('footer.quickLinks')}
               </motion.h3>
               <ul className="space-y-2">
                 {menuItems.map((item, index) => (
@@ -1125,7 +1131,7 @@ useEffect(() => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                Horario de Atención
+                {t('footer.schedule')}
               </motion.h3>
               <motion.p
                 className="text-tractor-50"
@@ -1135,11 +1141,11 @@ useEffect(() => {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                Lunes a Viernes: 08:00 AM - 01:00 PM<br />
-                03:00 PM - 06:00 PM<br />
-                Sábados: 08:00 AM - 1:00 PM<br />
-                03:00 PM - 06:00 PM<br />
-                Domingos: Cerrado
+                {t('footer.scheduleWeek')}<br />
+                {t('footer.scheduleWeekAfternoon')}<br />
+                {t('footer.scheduleSaturday')}<br />
+                {t('footer.scheduleSaturdayAfternoon')}<br />
+                {t('footer.scheduleSunday')}
               </motion.p>
             </div>
           </div>
@@ -1152,7 +1158,7 @@ useEffect(() => {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              © {new Date().getFullYear()} El Iqueño SAC. Todos los derechos reservados.
+              © {new Date().getFullYear()} El Iqueño SAC. {t('footer.copyright')}
             </motion.p>
           </div>
         </div>
@@ -1166,10 +1172,7 @@ useEffect(() => {
   className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9000] pointer-events-none"
   style={{
     transform: 'translateZ(0)',
-    willChange: 'transform',
-    position: 'fixed',
-    right: '1rem',
-    bottom: '1rem'
+    willChange: 'transform'
   }}
   initial={{ opacity: 0, y: 30 }}
   animate={{ opacity: 1, y: 0 }}
@@ -1184,7 +1187,7 @@ useEffect(() => {
     animate={{ opacity: 1, x: 0 }}
     transition={{ delay: 0.3, duration: 0.6 }}
   >
-    🤖 Soy Iqueñobot, tu asistente virtual
+    🤖 {t('chatbot.tooltip')}
   </motion.div>
 
   {/* Botón flotante - VERSIÓN SIMPLIFICADA */}

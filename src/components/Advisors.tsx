@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../../lib/supabaseClient';
+import ImageSwiper from './ImageSwiper';
 
 interface Advisor {
   id: number;
@@ -12,7 +14,9 @@ interface Advisor {
 }
 
 const Advisors: React.FC = () => {
+  const { t } = useTranslation();
   const [advisors, setAdvisors] = useState<Advisor[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const fetchAdvisors = async () => {
@@ -23,7 +27,6 @@ const Advisors: React.FC = () => {
         .order('id', { ascending: true });
 
       if (data && !error) {
-        // Procesa las especialidades como en panel.html
         const advisorsWithUrls = data.map(advisor => {
           let specialties = Array.isArray(advisor.specialties) ? advisor.specialties : [];
           if (typeof advisor.specialties === 'string') {
@@ -31,82 +34,93 @@ const Advisors: React.FC = () => {
               specialties = JSON.parse(advisor.specialties);
               if (!Array.isArray(specialties)) specialties = [];
             } catch (e) {
-              console.error('Error parsing specialties:', e, 'Raw data:', advisor.specialties);
+              console.error('Error parsing specialties:', e);
               specialties = [];
             }
           }
           return {
             ...advisor,
-            image_url: advisor.image_url || 'https://via.placeholder.com/350', // Fallback si no hay imagen
+            image_url: advisor.image_url || 'https://via.placeholder.com/350',
             specialties,
           };
         });
-
         setAdvisors(advisorsWithUrls);
-        console.log('Fetched advisors with specialties:', advisorsWithUrls); // Depuración
       } else if (error) {
         console.error('Error fetching advisors:', error);
       }
     };
-
     fetchAdvisors();
   }, []);
 
   const handleWhatsAppClick = (phone: string) => {
-    window.open(`https://wa.me/51${phone}`, '_blank');
+    window.open(`https://wa.me/51${phone}`, '_blank', 'noopener,noreferrer');
   };
 
+  const activeAdvisor = advisors[activeIndex];
+  const imagesCsv = advisors.map(a => a.image_url).join(',');
+
+  if (advisors.length === 0) {
+    return (
+      <div className="text-center py-16 text-gray-400 text-sm">
+        {t('advisors.unavailable')}
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-[1400px] mx-auto px-4 py-8">
-      {advisors.map((advisor) => (
-        <div
-          key={advisor.id}
-          className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl flex flex-col md:flex-row h-full group cursor-pointer"
-        >
-          {/* Image Section */}
-          <div className="relative md:w-2/5 overflow-hidden">
-            <img
-              src={advisor.image_url}
-              alt={advisor.name}
-              className="w-full h-[350px] object-cover transition-transform duration-300 group-hover:scale-105"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = 'https://via.placeholder.com/350'; // Fallback si la imagen falla
-              }}
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-              <h3 className="text-white text-xl font-bold">{advisor.name}</h3>
-              <p className="text-gray-200 text-sm">{advisor.position || 'Sin cargo'}</p> {/* Cargo debajo del nombre en la superposición */}
-            </div>
-          </div>
-
-          {/* Content Section */}
-          <div className="md:w-3/5 p-6 flex flex-col justify-between bg-gradient-to-br from-white to-gray-50">
-            <div>
-
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">Especialidades:</h4>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {advisor.specialties.map((specialty, index) => (
-                  <span
-                    key={index}
-                    className="bg-indigo-100 text-indigo-800 text-sm px-3 py-1.5 rounded-full font-medium transition-all duration-300 hover:bg-indigo-200 hover:scale-105 hover:shadow-md"
-                  >
-                    {specialty}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <button
-              onClick={() => handleWhatsAppClick(advisor.whatsapp)}
-              className="w-full bg-green-500 text-white py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center text-base font-medium shadow-md hover:shadow-xl hover:bg-green-600 hover:scale-[1.02] active:scale-95"
-            >
-              <MessageCircle className="h-5 w-5 mr-2" />
-              Contactar por WhatsApp
-            </button>
-          </div>
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-12">
+        <div className="flex-shrink-0">
+          <ImageSwiper
+            images={imagesCsv}
+            cardWidth={240}
+            cardHeight={320}
+            onActiveChange={setActiveIndex}
+          />
         </div>
-      ))}
+
+        <div className="flex-1 w-full lg:w-auto text-center lg:text-left pt-4 lg:pt-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-1">{activeAdvisor?.name}</h3>
+          <p className="text-sm text-gray-400 mb-5">{activeAdvisor?.position || 'Asesor'}</p>
+
+          {activeAdvisor?.specialties && activeAdvisor.specialties.length > 0 && (
+            <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-6">
+              {activeAdvisor.specialties.map((specialty, index) => (
+                <span
+                  key={index}
+                  className="bg-gray-100 text-gray-600 text-xs px-3 py-1.5 rounded-full font-medium"
+                >
+                  {specialty}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <button
+            onClick={() => activeAdvisor && handleWhatsAppClick(activeAdvisor.whatsapp)}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-600 transition-colors shadow-sm"
+          >
+            <MessageCircle className="h-4 w-4" />
+            {t('advisors.contactWhatsApp')}
+          </button>
+
+          {advisors.length > 1 && (
+            <div className="flex gap-1.5 justify-center lg:justify-start mt-8">
+              {advisors.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveIndex(i)}
+                  className={`rounded-full transition-all duration-300 ${
+                    i === activeIndex
+                      ? 'w-6 h-1.5 bg-gray-800'
+                      : 'w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

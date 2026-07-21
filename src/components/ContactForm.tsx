@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Send } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { useTranslation } from 'react-i18next';
 
 interface ContactFormProps {
   onSuccess: () => void;
 }
 
 const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -68,7 +70,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
     <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-lg">
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-          Nombre Completo
+          {t('contact.formName')}
         </label>
         <input
           type="text"
@@ -78,14 +80,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
           value={formData.name}
           onChange={handleChange}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tractor-200 focus:border-transparent"
-          placeholder="Tu nombre"
+          placeholder={t('contact.formNamePlaceholder')}
           disabled={isSubmitting}
         />
       </div>
 
       <div>
         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-          Correo Electrónico
+          {t('contact.formEmail')}
         </label>
         <input
           type="email"
@@ -95,14 +97,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
           value={formData.email}
           onChange={handleChange}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tractor-200 focus:border-transparent"
-          placeholder="tu@email.com"
+          placeholder={t('contact.formEmailPlaceholder')}
           disabled={isSubmitting}
         />
       </div>
 
       <div>
         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-          Teléfono
+          {t('contact.formPhone')}
         </label>
         <input
           type="tel"
@@ -112,14 +114,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
           value={formData.phone}
           onChange={handleChange}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tractor-200 focus:border-transparent"
-          placeholder="Tu número de teléfono"
+          placeholder={t('contact.formPhonePlaceholder')}
           disabled={isSubmitting}
         />
       </div>
 
       <div>
         <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-          Mensaje
+          {t('contact.formMessage')}
         </label>
         <textarea
           id="message"
@@ -129,7 +131,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
           onChange={handleChange}
           rows={4}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tractor-200 focus:border-transparent resize-none"
-          placeholder="¿En qué podemos ayudarte?"
+          placeholder={t('contact.formMessagePlaceholder')}
           disabled={isSubmitting}
         />
       </div>
@@ -142,7 +144,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
         disabled={isSubmitting}
       >
         <Send className="h-5 w-5 mr-2" />
-        {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
+        {isSubmitting ? t('contact.formSubmitting') : t('contact.formSubmit')}
       </button>
     </form>
   );

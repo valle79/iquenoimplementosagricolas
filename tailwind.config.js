@@ -3,6 +3,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      maxWidth: {
+        '8xl': '90rem',
+      },
       colors: {
         'tractor': {
           50: '#f0f9f0',

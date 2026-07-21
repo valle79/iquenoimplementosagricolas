@@ -1,0 +1,201 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Quiénes Somos",
+    "machinery": "Maquinarias",
+    "spareparts": "Repuestos",
+    "videos": "Videos",
+    "testimonials": "Testimonios",
+    "advisors": "Asesores",
+    "contact": "Contáctanos",
+    "catalog": "Abrir Catálogo",
+    "viewProducts": "Ver Productos"
+  },
+  "hero": {
+    "slide1": "Cosechadoras y Picadoras Agrícolas de Alta Calidad",
+    "slide2": "Maquinaria Agrícola para el Campo Peruano",
+    "slide3": "Cosechadoras de Papa y Desbrozadoras",
+    "slide4": "Picadoras e Implementos Agrícolas Personalizados",
+    "subtitle": "Especialistas en maquinaria agrícola y soluciones para el campo desde hace más de 30 años"
+  },
+  "about": {
+    "title": "Quiénes Somos",
+    "subtitle": "Fabricantes de Cosechadoras, Picadoras e Implementos Agrícolas en Perú",
+    "historyTitle": "Nuestra Historia",
+    "historyText": "FSI Implementos Agrícolas es una empresa peruana especializada en la fabricación de cosechadoras de papa, picadoras agrícolas, desbrozadoras e implementos para el campo. Nacemos como respuesta a la necesidad de todos los agricultores y empresas agroindustriales del país en hacer más fácil la tarea del agricultor y realizarlo en menos tiempo. Más de 30 años de experiencia fabricando cosechadoras, picadoras, maquinaria e implementos agrícolas para el campo peruano a los mejores precios. F.S.I SAC, desarrolla, innova, fabrica cosechadoras, picadoras, desbrozadoras y maquinaria agrícola para tractor en Perú.",
+    "missionTitle": "Nuestra Misión",
+    "missionText": "Proporcionar implementos agrícolas de la más alta calidad que mejoren la eficiencia y productividad de nuestros clientes, contribuyendo al desarrollo del sector agrícola.",
+    "yearsLabel": "Años de Experiencia",
+    "clientsLabel": "Clientes Satisfechos"
+  },
+  "services": {
+    "title": "Nuestros Servicios",
+    "fabrication": "Fabricación",
+    "fabricationDesc": "Fabricamos implementos agrícolas a medida, adaptados a las necesidades específicas de cada cliente.",
+    "maintenance": "Mantenimiento",
+    "maintenanceDesc": "Servicio técnico especializado y mantenimiento preventivo para mantener su maquinaria en óptimas condiciones.",
+    "advisory": "Asesoría",
+    "advisoryDesc": "Asesoramiento técnico personalizado para la selección y uso óptimo de implementos agrícolas."
+  },
+  "products": {
+    "title": "Nuestros Productos",
+    "description": "Contamos con una amplia gama de cosechadoras de papa, picadoras agrícolas, desbrozadoras de hoja de papa, cultivadoras, abonadoras y otros equipos diseñados para el sector agrícola peruano. Cada cosechadora, picadora e implemento es cuidadosamente fabricado para asegurar un rendimiento óptimo y una larga vida útil, incluso en terrenos exigentes. Somos fabricantes directos en Perú.",
+    "searchPlaceholder": "Busca productos por nombre o descripción...",
+    "viewDetails": "Ver Detalles",
+    "quote": "Cotizar",
+    "quality": "Calidad",
+    "noName": "Sin nombre",
+    "noSpecs": "Sin especificaciones",
+    "noResults": "No se encontraron productos.",
+    "loading": "Cargando productos...",
+    "error": "No se pudieron cargar los productos. Por favor, intenta de nuevo.",
+    "productCount": "productos"
+  },
+  "spareParts": {
+    "title": "Nuestros Repuestos",
+    "description": "Descubre una amplia gama de repuestos de alta calidad para mantener tus equipos agrícolas en óptimas condiciones. Garantizamos durabilidad y compatibilidad.",
+    "searchPlaceholder": "Buscar repuestos...",
+    "details": "Detalles",
+    "quote": "Cotizar",
+    "quality": "Calidad",
+    "noResults": "No se encontraron repuestos",
+    "noResultsHint": "Intenta con otros términos de búsqueda",
+    "loading": "Cargando repuestos de calidad...",
+    "error": "No se pudieron cargar los repuestos. Por favor, intenta de nuevo.",
+    "material": "Material"
+  },
+  "cta": {
+    "title": "¿Necesitas un implemento específico?",
+    "subtitle": "Contáctanos y te ayudaremos a encontrar la solución perfecta para tu necesidad",
+    "button": "Solicitar Cotización"
+  },
+  "videos": {
+    "title": "Videos de Nuestros Proyectos"
+  },
+  "videoGallery": {
+    "video1": {
+      "title": "Encamadora Integral - FSI Implementos agricolas El Iqueño SAC.- Perú",
+      "description": "Encamadora Integral para formar camas agrícolas uniformes en cultivos como papa y camote. Optimiza la preparación del terreno, mejorando la siembra y el riego. Fabricada por FSI Implementos Agrícolas El Iqueño SAC – calidad y eficiencia peruana."
+    },
+    "video2": {
+      "title": "Picadora / Desbrozadora de hoja de papa y/o Camote con cadena (nueva) - FSI SAC-EL IQUEÑO - PERÚ",
+      "description": "Ideal para la limpieza de cultivo, elimina residuos vegetales con rapidez y presicion, mejorando el manejo de terreno. Diseñada por FSI SAC – EL IQUEÑO, calidad peruana para el trabajo agrícola eficiente."
+    },
+    "video3": {
+      "title": "Cosechadora de papa y camote - FSI SAC EL IQUEÑO- PERÚ",
+      "description": "Cosechadora especializada para papa y camote, ideal para agilizar tu cosecha. Extrae los tubérculos sin dañarlos y los separa eficientemente del suelo. Aumenta tu productividad y reduce el trabajo manual en el campo."
+    },
+    "video4": {
+      "title": "Picadora de chala - FSI SAC EL IQUEÑO- PERÚ",
+      "description": "La picadora de chala es una máquina diseñada para triturar residuos agrícolas como la chala de maíz, facilitando su uso como alimento para ganado o compostaje. Su estructura robusta y eficiencia de corte optimizan el trabajo en el campo."
+    },
+    "video5": {
+      "title": "Cultivadora-Abonadora con sistema hidráulico - FSI SAC EL IQUEÑO- PERÚ",
+      "description": "Herramienta agrícola versátil que permite remover la tierra y aplicar abono simultáneamente. Gracias a su sistema hidráulico, ofrece mayor precisión y facilidad de uso. Es ideal para mejorar la fertilidad del suelo y optimizar el cultivo. Diseñada para aumentar la eficiencia y reducir el esfuerzo en labores agrícolas."
+    }
+  },
+  "testimonials": {
+    "title": "Testimonios de Clientes"
+  },
+  "testimonialData": {
+    "testimonial1": {
+      "name": "Carlos Rodríguez",
+      "company": "Industrias del Sur",
+      "content": "Excelente servicio y calidad en la fabricación de nuestras máquinas industriales. El equipo de El Iqueño SAC demostró gran profesionalismo."
+    },
+    "testimonial2": {
+      "name": "María González",
+      "company": "Metalúrgica Central",
+      "content": "Trabajamos con El Iqueño SAC en varios proyectos y siempre entregan a tiempo y con la calidad prometida."
+    },
+    "testimonial3": {
+      "name": "Jorge Mendoza",
+      "company": "Agricola del Norte",
+      "content": "Su conocimiento y experiencia en soluciones para el sector agrícola son excepcionales. Gracias a sus implementos de alta calidad, hemos optimizado nuestras labores en campo, logrando mayor eficiencia y mejores resultados en cada campaña."
+    }
+  },
+  "advisors": {
+    "title": "Personal Administrativo",
+    "contactWhatsApp": "Contactar por WhatsApp",
+    "unavailable": "No hay asesores disponibles"
+  },
+  "clients": {
+    "title": "Nuestros Clientes",
+    "subtitle": "Brindamos soluciones integrales en el sector agroindustrial e industria en general. Innovamos, diseñamos y fabricamos repuestos, implementos y maquinaria agrícola a la medida."
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "formName": "Nombre Completo",
+    "formNamePlaceholder": "Tu nombre",
+    "formEmail": "Correo Electrónico",
+    "formEmailPlaceholder": "tu@email.com",
+    "formPhone": "Teléfono",
+    "formPhonePlaceholder": "Tu número de teléfono",
+    "formMessage": "Mensaje",
+    "formMessagePlaceholder": "¿En qué podemos ayudarte?",
+    "formSubmit": "Enviar Mensaje",
+    "formSubmitting": "Enviando...",
+    "formSuccess": "Mensaje enviado correctamente. Nos pondremos en contacto pronto.",
+    "formError": "Hubo un error al enviar el mensaje. Por favor, intenta nuevamente."
+  },
+  "footer": {
+    "description": "Expertos en soluciones metalúrgicas industriales.",
+    "chamberAssociation": "Estamos asociados con la cámara de comercio de lima.",
+    "quickLinks": "Enlaces Rápidos",
+    "schedule": "Horario de Atención",
+    "scheduleWeek": "Lunes a Viernes: 08:00 AM - 01:00 PM",
+    "scheduleWeekAfternoon": "03:00 PM - 06:00 PM",
+    "scheduleSaturday": "Sábados: 08:00 AM - 01:00 PM",
+    "scheduleSaturdayAfternoon": "03:00 PM - 06:00 PM",
+    "scheduleSunday": "Domingos: Cerrado",
+    "copyright": "Todos los derechos reservados."
+  },
+  "chatbot": {
+    "tooltip": "Soy Iqueñobot, tu asistente virtual",
+    "errorNotLoaded": "El chatbot aún no está cargado. Por favor, espera un momento.",
+    "errorOpen": "No se pudo abrir el chatbot. Intenta de nuevo."
+  },
+  "promo": {
+    "badge": "PROMOCIÓN",
+    "offerLabel": "¡OFERTA ESPECIAL!",
+    "limitedTime": "¡Oferta por tiempo limitado!",
+    "validUntil": "Válido: ",
+    "buy": "Comprar",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "productModal": {
+    "quality": "Calidad",
+    "downloadSheet": "Descargar Ficha Técnica",
+    "description": "Descripción:",
+    "features": "Características:",
+    "specifications": "Especificaciones:",
+    "dimensions": "Dimensiones:",
+    "weight": "Peso",
+    "dimensionsFormat": "Dimensiones (AxAxL)",
+    "noFeatures": "Sin características disponibles.",
+    "noSpecs": "Sin especificaciones disponibles.",
+    "noDimensions": "Sin dimensiones disponibles.",
+    "noSheet": "No hay ficha técnica disponible para este producto."
+  },
+  "machineGallery": {
+    "whatsappMessage": "Hola, me gustaría solicitar una cotización para el producto: {{productName}}"
+  },
+  "sparePartModal": {
+    "quality": "Calidad",
+    "specifications": "Especificaciones",
+    "features": "Características",
+    "close": "Cerrar",
+    "quote": "Cotizar",
+    "whatsappMessage": "Hola, me gustaría solicitar una cotización para el repuesto: {{partName}}"
+  },
+  "imageSwiper": {
+    "imageAlt": "Imagen {{index}}"
+  },
+  "common": {
+    "close": "Cerrar",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "loading": "Cargando..."
+  }
+}

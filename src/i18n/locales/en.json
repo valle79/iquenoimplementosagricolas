@@ -1,0 +1,201 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "machinery": "Machinery",
+    "spareparts": "Spare Parts",
+    "videos": "Videos",
+    "testimonials": "Testimonials",
+    "advisors": "Advisors",
+    "contact": "Contact Us",
+    "catalog": "Open Catalog",
+    "viewProducts": "View Products"
+  },
+  "hero": {
+    "slide1": "High Quality Harvesters and Agricultural Choppers",
+    "slide2": "Agricultural Machinery for the Peruvian Countryside",
+    "slide3": "Potato Harvesters and Brush Cutters",
+    "slide4": "Custom Choppers and Agricultural Implements",
+    "subtitle": "Specialists in agricultural machinery and field solutions for over 30 years"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Manufacturers of Harvesters, Choppers and Agricultural Implements in Peru",
+    "historyTitle": "Our History",
+    "historyText": "FSI Implementos Agrícolas is a Peruvian company specialized in manufacturing potato harvesters, agricultural choppers, brush cutters and field implements. We were born as a response to the need of all farmers and agro-industrial companies in the country to make the farmer's task easier and accomplish it in less time. Over 30 years of experience manufacturing harvesters, choppers, machinery and agricultural implements for the Peruvian countryside at the best prices. F.S.I SAC develops, innovates, and manufactures harvesters, choppers, brush cutters and agricultural machinery for tractors in Peru.",
+    "missionTitle": "Our Mission",
+    "missionText": "To provide the highest quality agricultural implements that improve the efficiency and productivity of our clients, contributing to the development of the agricultural sector.",
+    "yearsLabel": "Years of Experience",
+    "clientsLabel": "Satisfied Clients"
+  },
+  "services": {
+    "title": "Our Services",
+    "fabrication": "Fabrication",
+    "fabricationDesc": "We manufacture custom agricultural implements, adapted to each client's specific needs.",
+    "maintenance": "Maintenance",
+    "maintenanceDesc": "Specialized technical service and preventive maintenance to keep your machinery in optimal condition.",
+    "advisory": "Advisory",
+    "advisoryDesc": "Personalized technical advice for the selection and optimal use of agricultural implements."
+  },
+  "products": {
+    "title": "Our Products",
+    "description": "We have a wide range of potato harvesters, agricultural choppers, potato leaf brush cutters, cultivators, fertilizer spreaders and other equipment designed for the Peruvian agricultural sector. Each harvester, chopper and implement is carefully manufactured to ensure optimal performance and a long service life, even in demanding terrain. We are direct manufacturers in Peru.",
+    "searchPlaceholder": "Search products by name or description...",
+    "viewDetails": "View Details",
+    "quote": "Quote",
+    "quality": "Quality",
+    "noName": "No name",
+    "noSpecs": "No specifications",
+    "noResults": "No products found.",
+    "loading": "Loading products...",
+    "error": "Could not load products. Please try again.",
+    "productCount": "products"
+  },
+  "spareParts": {
+    "title": "Our Spare Parts",
+    "description": "Discover a wide range of high-quality spare parts to keep your agricultural equipment in optimal condition. We guarantee durability and compatibility.",
+    "searchPlaceholder": "Search spare parts...",
+    "details": "Details",
+    "quote": "Quote",
+    "quality": "Quality",
+    "noResults": "No spare parts found",
+    "noResultsHint": "Try different search terms",
+    "loading": "Loading quality spare parts...",
+    "error": "Could not load spare parts. Please try again.",
+    "material": "Material"
+  },
+  "cta": {
+    "title": "Need a specific implement?",
+    "subtitle": "Contact us and we'll help you find the perfect solution for your needs",
+    "button": "Request a Quote"
+  },
+  "videos": {
+    "title": "Videos of Our Projects"
+  },
+  "videoGallery": {
+    "video1": {
+      "title": "Integral Bed Shaper - FSI Agricultural Implements El Iqueño SAC - Peru",
+      "description": "Integral Bed Shaper for forming uniform agricultural beds in crops like potatoes and sweet potatoes. Optimizes soil preparation, improving planting and irrigation. Manufactured by FSI Agricultural Implements El Iqueño SAC - Peruvian quality and efficiency."
+    },
+    "video2": {
+      "title": "Potato and Sweet Potato Leaf Shredder/Brush Cutter with chain (new) - FSI SAC-EL IQUEÑO - PERU",
+      "description": "Ideal for crop cleaning, it quickly removes plant residues, improving field management. Designed by FSI SAC - EL IQUEÑO, Peruvian quality for efficient agricultural work."
+    },
+    "video3": {
+      "title": "Potato and Sweet Potato Harvester - FSI SAC EL IQUEÑO - PERU",
+      "description": "Specialized harvester for potatoes and sweet potatoes, ideal for speeding up your harvest. Extracts tubers without damaging them and efficiently separates them from the soil. Increases your productivity and reduces manual labor in the field."
+    },
+    "video4": {
+      "title": "Corn Stover Chopper - FSI SAC EL IQUEÑO - PERU",
+      "description": "The corn stover chopper is a machine designed to shred agricultural residues such as corn stover, making it easier to use as livestock feed or compost. Its robust structure and cutting efficiency optimize fieldwork."
+    },
+    "video5": {
+      "title": "Cultivator-Fertilizer Spreader with hydraulic system - FSI SAC EL IQUEÑO - PERU",
+      "description": "Versatile agricultural tool that allows tilling the soil and applying fertilizer simultaneously. Thanks to its hydraulic system, it offers greater precision and ease of use. Ideal for improving soil fertility and optimizing cultivation. Designed to increase efficiency and reduce effort in agricultural work."
+    }
+  },
+  "testimonials": {
+    "title": "Client Testimonials"
+  },
+  "testimonialData": {
+    "testimonial1": {
+      "name": "Carlos Rodríguez",
+      "company": "Industrias del Sur",
+      "content": "Excellent service and quality in the manufacturing of our industrial machines. The El Iqueño SAC team showed great professionalism."
+    },
+    "testimonial2": {
+      "name": "María González",
+      "company": "Metalúrgica Central",
+      "content": "We have worked with El Iqueño SAC on several projects and they always deliver on time with the promised quality."
+    },
+    "testimonial3": {
+      "name": "Jorge Mendoza",
+      "company": "Agricola del Norte",
+      "content": "Their knowledge and experience in solutions for the agricultural sector are exceptional. Thanks to their high-quality implements, we have optimized our field work, achieving greater efficiency and better results in each campaign."
+    }
+  },
+  "advisors": {
+    "title": "Administrative Staff",
+    "contactWhatsApp": "Contact via WhatsApp",
+    "unavailable": "No advisors available"
+  },
+  "clients": {
+    "title": "Our Clients",
+    "subtitle": "We provide comprehensive solutions in the agroindustrial and general industry sectors. We innovate, design and manufacture custom spare parts, implements and agricultural machinery."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "formName": "Full Name",
+    "formNamePlaceholder": "Your name",
+    "formEmail": "Email Address",
+    "formEmailPlaceholder": "you@email.com",
+    "formPhone": "Phone",
+    "formPhonePlaceholder": "Your phone number",
+    "formMessage": "Message",
+    "formMessagePlaceholder": "How can we help you?",
+    "formSubmit": "Send Message",
+    "formSubmitting": "Sending...",
+    "formSuccess": "Message sent successfully. We'll be in touch soon.",
+    "formError": "There was an error sending the message. Please try again."
+  },
+  "footer": {
+    "description": "Experts in industrial metallurgical solutions.",
+    "chamberAssociation": "We are associated with the Lima Chamber of Commerce.",
+    "quickLinks": "Quick Links",
+    "schedule": "Business Hours",
+    "scheduleWeek": "Monday to Friday: 08:00 AM - 01:00 PM",
+    "scheduleWeekAfternoon": "03:00 PM - 06:00 PM",
+    "scheduleSaturday": "Saturday: 08:00 AM - 01:00 PM",
+    "scheduleSaturdayAfternoon": "03:00 PM - 06:00 PM",
+    "scheduleSunday": "Sunday: Closed",
+    "copyright": "All rights reserved."
+  },
+  "chatbot": {
+    "tooltip": "I'm Iqueñobot, your virtual assistant",
+    "errorNotLoaded": "The chatbot is not loaded yet. Please wait a moment.",
+    "errorOpen": "Could not open the chatbot. Please try again."
+  },
+  "promo": {
+    "badge": "PROMOTION",
+    "offerLabel": "SPECIAL OFFER!",
+    "limitedTime": "Limited time offer!",
+    "validUntil": "Valid until: ",
+    "buy": "Buy",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "productModal": {
+    "quality": "Quality",
+    "downloadSheet": "Download Spec Sheet",
+    "description": "Description:",
+    "features": "Features:",
+    "specifications": "Specifications:",
+    "dimensions": "Dimensions:",
+    "weight": "Weight",
+    "dimensionsFormat": "Dimensions (WxHxD)",
+    "noFeatures": "No features available.",
+    "noSpecs": "No specifications available.",
+    "noDimensions": "No dimensions available.",
+    "noSheet": "No spec sheet available for this product."
+  },
+  "machineGallery": {
+    "whatsappMessage": "Hello, I would like to request a quote for the product: {{productName}}"
+  },
+  "sparePartModal": {
+    "quality": "Quality",
+    "specifications": "Specifications",
+    "features": "Features",
+    "close": "Close",
+    "quote": "Quote",
+    "whatsappMessage": "Hello, I would like to request a quote for the spare part: {{partName}}"
+  },
+  "imageSwiper": {
+    "imageAlt": "Image {{index}}"
+  },
+  "common": {
+    "close": "Close",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "loading": "Loading..."
+  }
+}
