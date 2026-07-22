@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Phone, Mail, MapPin, ChevronRight, Users, Building, Target } from 'lucide-react';
+import { Menu, Phone, Mail, MapPin, ChevronRight, Users, Building, Target } from 'lucide-react';
 import ContactForm from './components/ContactForm';
 import MachineGallery from './components/MachineGallery';
 import SparePartsGallery from './components/SparePartsGallery';
@@ -510,16 +510,9 @@ useEffect(() => {
     </div>
   </div>
 
-  <motion.button
-    onClick={() => setIsMenuOpen(false)}
-    className="absolute top-6 text-white/60 hover:text-white transition-colors"
-    whileTap={{ scale: 0.9 }}
-  >
-    <X className="h-5 w-5" />
-  </motion.button>
 </div>
 
-              <nav className="flex-1 px-4 pt-6 pb-2 space-y-1">
+              <nav className="flex-1 px-4 pt-6 pb-2 space-y-1 text-center">
                 {menuItems.map((item, index) => (
                   <motion.a
                     key={item.href}
