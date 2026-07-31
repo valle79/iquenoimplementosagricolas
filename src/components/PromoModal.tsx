@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Tag, Clock, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     fetchActivePromos();
@@ -96,6 +97,17 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
     setCurrentIndex((prev) => (prev + 1) % promos.length);
   };
 
+  const handleVideoClick = () => {
+    if (!videoRef.current) return;
+    if (isMuted) {
+      setIsMuted(false);
+      // Si el click nativo del navegador pausó el video, reanudarlo con audio
+      if (videoRef.current.paused) {
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  };
+
   if (loading) return null;
   if (promos.length === 0) return null;
   
@@ -123,7 +135,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
 
           {/* Modal Container */}
           <motion.div
-            className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] md:max-h-[95vh]"
+            className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] md:max-h-[95vh]"
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -157,7 +169,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                 className="relative md:grid md:grid-cols-2 gap-0 h-full"
               >
                 {/* Left Side - Image or Video (Full screen en móvil) */}
-                <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden flex flex-col items-center justify-center md:p-5 w-full h-[60vh] md:h-auto">
+                <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden flex flex-col items-center justify-center md:p-4 w-full h-[60vh] md:h-auto">
                   {/* Contenedor con aspect-ratio consistente */}
                   <div className="w-full h-full overflow-hidden flex items-center justify-center">
                     {/* Overlay sutil para móvil */}
@@ -165,15 +177,16 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                     
                     {currentPromo.mediaType === 'video' ? (
                       <motion.video
+                        ref={videoRef}
                         src={currentPromo.image}
-                        className="w-full h-full object-contain bg-black md:drop-shadow-2xl"
+                        className="w-full h-full object-contain bg-black md:drop-shadow-xl"
                         initial={{ scale: 1.05 }}
                         animate={{ scale: 1 }}
                         transition={{ duration: 0.4 }}
                         controls
                         autoPlay
                         muted={isMuted}
-                        onClick={() => setIsMuted(false)}
+                        onClick={handleVideoClick}
                         loop
                         playsInline
                         preload="metadata"
@@ -182,7 +195,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                       <motion.img
                         src={currentPromo.image}
                         alt={currentPromo.title}
-                        className="w-full h-full object-contain md:drop-shadow-2xl"
+                        className="w-full h-full object-contain md:drop-shadow-xl"
                         initial={{ scale: 1.05 }}
                         animate={{ scale: 1 }}
                         transition={{ duration: 0.4 }}
@@ -190,20 +203,20 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                     )}
                   </div>
                   <motion.div
-                    className="absolute top-4 left-3 md:top-6 md:left-4 bg-red-500 text-white px-2.5 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl shadow-2xl z-20 backdrop-blur-sm"
+                    className="absolute top-4 left-3 md:top-5 md:left-4 bg-red-500 text-white px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-lg md:rounded-lg shadow-xl z-20 backdrop-blur-sm"
                     initial={{ rotate: -12, scale: 0 }}
                     animate={{ rotate: -12, scale: 1 }}
                     transition={{ delay: 0.1, type: "spring", duration: 0.3 }}
                   >
                     <div className="flex items-center space-x-1 md:space-x-1.5">
-                      <Tag className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                      <span className="text-base md:text-xl font-black">{t('promo.badge')}</span>
+                      <Tag className="w-3.5 h-3.5 md:w-3.5 md:h-3.5" />
+                      <span className="text-base md:text-lg font-black">{t('promo.badge')}</span>
                     </div>
                   </motion.div>
 
                   {/* Validity Badge */}
                   <motion.div
-                    className="absolute bottom-14 left-3 md:bottom-16 md:left-4 bg-white/95 backdrop-blur-sm px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg shadow-lg z-20"
+                    className="absolute bottom-14 left-3 md:bottom-14 md:left-4 bg-white/95 backdrop-blur-sm px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg shadow-md z-20"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2, duration: 0.3 }}
@@ -216,7 +229,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
 
                   {/* Banner promocional animado - Debajo de "Válido hasta" */}
                   <motion.div
-                    className="hidden md:block absolute bottom-3 left-3 md:bottom-4 md:left-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 text-gray-900 py-1.5 px-2.5 md:py-2 md:px-3 rounded-lg shadow-lg overflow-hidden z-20"
+                    className="hidden md:block absolute bottom-3 left-3 md:bottom-3 md:left-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 text-gray-900 py-1.5 px-2.5 rounded-lg shadow-md overflow-hidden z-20"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3, duration: 0.3 }}
@@ -268,7 +281,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                 </div>
 
                 {/* Right Side - Content (Oculto en móvil) */}
-                <div className="hidden md:flex p-6 sm:p-7 md:p-8 flex-col justify-between">
+                <div className="hidden md:flex p-6 md:p-7 flex-col justify-between">
                   {/* Badge */}
                   <motion.div
                     initial={{ x: -20, opacity: 0 }}
@@ -282,16 +295,16 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
 
                   {/* Title */}
                   <motion.div
-                    className="mt-4 md:mt-5"
+                    className="mt-4"
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
                   >
-                    <h2 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-black text-tractor-700 leading-tight mb-1 pr-4">
+                    <h2 className="text-xl md:text-2xl font-black text-tractor-700 leading-tight mb-1 pr-4">
                       {currentPromo.title}
                     </h2>
                     {currentPromo.subtitle && (
-                      <p className="text-base sm:text-lg md:text-lg text-tractor-200 font-semibold">
+                      <p className="text-sm md:text-base text-tractor-200 font-semibold">
                         {currentPromo.subtitle}
                       </p>
                     )}
@@ -299,7 +312,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
 
                   {/* Description */}
                   <motion.p
-                    className="mt-3 md:mt-4 text-gray-600 leading-relaxed text-xs md:text-sm"
+                    className="mt-3 md:mt-4 text-gray-600 leading-relaxed text-sm"
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.4 }}
@@ -316,7 +329,7 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                   >
                     <button
                       onClick={handleWhatsAppClick}
-                      className="w-full bg-tractor-200 text-white px-5 py-3 md:px-6 md:py-3.5 rounded-xl font-bold text-base md:text-lg hover:bg-tractor-300 hover:shadow-2xl transform hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-2 group"
+                      className="w-full bg-tractor-200 text-white px-5 py-3 rounded-xl font-bold text-base hover:bg-tractor-300 hover:shadow-2xl transform hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-2 group"
                     >
                       <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
                       <span>{t('promo.buy')}</span>

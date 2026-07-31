@@ -21,7 +21,7 @@ import image2 from './assets/portada2.jpg';
 import image3 from './assets/portada3.jpg';
 import image4 from './assets/Abonadora-Fertilizadora-Hidraulica.jpg';
 import image5 from './assets/camara-comercio-lima.png';
-import { Bot } from "lucide-react"; // 👈 importa el icono de robot
+import { Bot } from "lucide-react";
 
 // Extiende la interfaz Window para incluir Chatbase
 declare global {

@@ -171,15 +171,15 @@ const HeroCarousel: React.FC = () => {
         <div className="relative" style={{ width: 0, height: 0 }}>
           <button
             onClick={(e) => { e.stopPropagation(); if (leaveTimeoutRef.current) clearTimeout(leaveTimeoutRef.current); setShowSocial((prev) => !prev); }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white hover:shadow-xl transition-all active:scale-95 z-10"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white hover:shadow-xl transition-all active:scale-95 z-10"
             aria-label="Redes sociales"
             title="Redes sociales"
           >
-            <div className="grid grid-cols-2 gap-px w-6 h-6 place-items-center">
-              <FaWhatsapp className="text-green-500 w-2.5 h-2.5" />
-              <FaFacebook className="text-blue-600 w-2.5 h-2.5" />
-              <FaInstagram className="text-pink-500 w-2.5 h-2.5" />
-              <FaTiktok className="text-black w-2.5 h-2.5" />
+            <div className="grid grid-cols-2 gap-px w-8 h-8 place-items-center">
+              <FaWhatsapp className="text-green-500 w-3.5 h-3.5" />
+              <FaFacebook className="text-blue-600 w-3.5 h-3.5" />
+              <FaInstagram className="text-pink-500 w-3.5 h-3.5" />
+              <FaTiktok className="text-black w-3.5 h-3.5" />
             </div>
           </button>
           {(() => {
