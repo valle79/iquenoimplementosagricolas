@@ -1153,6 +1153,24 @@ useEffect(() => {
             >
               © {new Date().getFullYear()} El Iqueño SAC. {t('footer.copyright')}
             </motion.p>
+            <motion.p
+              className="mt-3 text-sm text-tractor-100/80"
+              custom={1}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              Desarrollado por{' '}
+              <a
+                href="https://portafolioluisvalle.netlify.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline decoration-dotted underline-offset-4 transition-colors duration-300 hover:text-white"
+              >
+                Luis Valle
+              </a>
+            </motion.p>
           </div>
         </div>
       </motion.footer>
