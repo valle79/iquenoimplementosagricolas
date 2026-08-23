@@ -381,7 +381,7 @@ useEffect(() => {
               <div className="hidden md:flex items-center justify-center w-full space-x-8">
                 <div className="flex items-center space-x-2 text-machinery-100 text-sm">
                   <Mail className="h-4 w-4" />
-                  <span>eliquenosac.lili@gmail.com</span>
+                  <span>ventas@eliquenoimplementosagricolas.com</span>
                 </div>
                 <div className="flex items-center space-x-2 text-machinery-100 text-sm">
                   <MapPin className="h-4 w-4" />
@@ -1005,7 +1005,7 @@ useEffect(() => {
                 viewport={{ once: true }}
               >
                 <Mail className="h-6 w-6 text-tractor-200 mr-3" />
-                <span>eliquenosac.lili@gmail.com</span>
+                <span>ventas@eliquenoimplementosagricolas.com</span>
               </motion.div>
               <motion.div
                 className="flex items-center p-4 bg-white rounded-lg shadow-sm"

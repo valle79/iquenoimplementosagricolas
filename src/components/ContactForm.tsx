@@ -32,7 +32,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
         from_email: formData.email,
         phone: formData.phone,
         message: formData.message,
-        to_email: 'eliquenosac.lili@gmail.com'
+        to_email: 'ventas@eliquenoimplementosagricolas.com'
       };
 
       await emailjs.send(
