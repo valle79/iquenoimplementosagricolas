@@ -36,7 +36,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSuccess }) => {
       };
 
       await emailjs.send(
-        'service_l03q9on',
+        'service_ysl232a',
         'template_njam9ds',
         templateParams
       );
