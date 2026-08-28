@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import SparePartModal from './SparePartModal';
-import { supabase } from '../../lib/supabaseClient';
+import { fetchSpareParts } from '../lib/api';
 import type { SparePart } from '../types';
 import { parseJsonField } from '../utils/parse';
 
@@ -21,17 +21,11 @@ const SparePartsGallery: React.FC<SparePartsGalleryProps> = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    const fetchSpareParts = async () => {
+    const loadSpareParts = async () => {
       try {
         setLoading(true);
         setError(null);
-        const { data, error } = await supabase
-          .from('spare_parts')
-          .select('id, name, description, image_url, price, specifications, features')
-          .order('id', { ascending: false });
-
-        if (error) throw new Error(`Error al cargar repuestos: ${error.message}`);
-
+        const data = await fetchSpareParts();
         const parsed = (data ?? []).map((item) => ({
           ...item,
           specifications: parseJsonField(item.specifications, []),
@@ -45,7 +39,7 @@ const SparePartsGallery: React.FC<SparePartsGalleryProps> = () => {
         setLoading(false);
       }
     };
-    fetchSpareParts();
+    loadSpareParts();
   }, []);
 
   const filteredSpareParts = searchTerm.trim() === ''

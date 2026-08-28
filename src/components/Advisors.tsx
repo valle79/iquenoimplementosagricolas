@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '../../lib/supabaseClient';
+import { fetchAdvisors } from '../lib/api';
 import ImageSwiper from './ImageSwiper';
 
 interface Advisor {
@@ -19,14 +19,9 @@ const Advisors: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    const fetchAdvisors = async () => {
-      const { data, error } = await supabase
-        .from('advisors')
-        .select('id, name, image_url, whatsapp, specialties, position')
-        .eq('deleted', false)
-        .order('id', { ascending: true });
-
-      if (data && !error) {
+    const fetchData = async () => {
+      try {
+        const data = await fetchAdvisors();
         const advisorsWithUrls = data.map(advisor => {
           let specialties = Array.isArray(advisor.specialties) ? advisor.specialties : [];
           if (typeof advisor.specialties === 'string') {
@@ -45,11 +40,11 @@ const Advisors: React.FC = () => {
           };
         });
         setAdvisors(advisorsWithUrls);
-      } else if (error) {
+      } catch (error) {
         console.error('Error fetching advisors:', error);
       }
     };
-    fetchAdvisors();
+    fetchData();
   }, []);
 
   const handleWhatsAppClick = (phone: string) => {

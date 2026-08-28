@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import ProductModal from './ProductModal';
-import { supabase } from '../../lib/supabaseClient';
+import { fetchProducts } from '../lib/api';
 import { MachineProduct } from '../types';
 import { parseJsonField } from '../utils/parse';
 
@@ -21,26 +21,19 @@ const MachineGallery: React.FC<MachineGalleryProps> = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const loadProducts = async () => {
       try {
         setLoading(true);
         setError(null);
-        const { data, error } = await supabase
-          .from('machine_products')
-          .select('id, name, description, image_url, pdf_url, specifications, features, dimensions, deleted')
-          .eq('deleted', false)
-          .order('id', { ascending: false });
-
-        if (error) {
-          throw new Error(`Error al cargar productos: ${error.message}`);
-        }
-
+        const data = await fetchProducts();
         const parsed = (data ?? []).map((item) => ({
           ...item,
           specifications: parseJsonField(item.specifications, []),
           features: parseJsonField(item.features, []),
           dimensions: parseJsonField(item.dimensions, { width: 0, height: 0, depth: 0, weight: 0 }),
         }));
+        // Mantener el mismo orden que producía Supabase (id descendente)
+        parsed.sort((a, b) => b.id - a.id);
         setProducts(parsed);
       } catch (err) {
         console.error('Error al cargar productos:', err);
@@ -49,7 +42,7 @@ const MachineGallery: React.FC<MachineGalleryProps> = () => {
         setLoading(false);
       }
     };
-    fetchProducts();
+    loadProducts();
   }, []);
 
   // Filtrar productos con coincidencias parciales o mostrar todos si searchTerm está vacío

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Tag, Clock, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '../../lib/supabaseClient';
+import { fetchPromotions } from '../lib/api';
 
 import type { PromoData } from '../types';
 
@@ -46,27 +46,9 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
 
   const fetchActivePromos = async () => {
     try {
-      const { data, error } = await supabase
-        .from('promotions')
-        .select('*')
-        .eq('is_active', true)
-        .eq('show_in_web', true)
-        .order('display_order', { ascending: true })
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      if (data && data.length > 0) {
-        const formattedPromos: PromoData[] = data.map((promo) => ({
-          id: promo.id,
-          title: promo.title,
-          subtitle: promo.subtitle || '',
-          features: promo.features,
-          image: promo.image_url,
-          validUntil: promo.valid_until,
-          mediaType: promo.media_type || 'image'
-        }));
-        setPromos(formattedPromos);
+      const promos = await fetchPromotions();
+      if (promos && promos.length > 0) {
+        setPromos(promos);
       }
     } catch (error) {
       console.error('Error al cargar promociones:', error);
