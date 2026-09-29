@@ -1,28 +1,86 @@
 /**
  * Capa de servicios de la web pública (iquenosac).
- * Reemplaza por completo las llamadas a Supabase: ahora consume la API FastAPI
- * del backend (mismo servidor que alimenta el panel admin).
  *
- * La URL base se configura con VITE_API_URL; si no está definida se usa el
- * backend de producción (Render). En desarrollo local, define VITE_API_URL
- * apuntando a tu backend local (p. ej. http://localhost:8000).
+ * Única fuente de datos: el panel administrativo (panelAdminIqueno), que guarda
+ * productos, repuestos, asesores y promociones en Supabase. Aquí solo se LEEN
+ * (consultas anónimas de PostgREST), así que el panel sigue siendo el único que
+ * crea, edita o elimina registros.
+ *
+ * Las credenciales son las mismas que el panel usa en el navegador (anon key),
+ * por lo que no son un secreto. Se pueden sobrescribir con VITE_SUPABASE_URL y
+ * VITE_SUPABASE_ANON_KEY.
  */
 import type { MachineProduct, SparePart, PromoData } from '../types';
 
-// Anónimo/público: no exponemos secretos aquí.
-const API_BASE: string = (import.meta.env.VITE_API_URL as string | undefined)
-  ?.replace(/\/+$/, '') || 'https://panel-iqueno-proformas.onrender.com';
+const SUPABASE_URL = (
+  (import.meta.env.VITE_SUPABASE_URL as string | undefined) ||
+  'https://rqouqtdgxsksueyskdow.supabase.co'
+).replace(/\/+$/, '');
 
-async function getJson<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`);
+const SUPABASE_ANON_KEY =
+  (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined) ||
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxb3VxdGRneHNrc3VleXNrZG93Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2MjgxNTcsImV4cCI6MjA2OTIwNDE1N30.7s3i-7gJw-MiI0473eR_3gVX5TrskpJ1ivZKglfeMk0';
+
+/**
+ * GET de solo lectura sobre PostgREST. Replica exactamente los filtros que usa
+ * el panel al listar (deleted = false y el mismo orden), de modo que la web
+ * muestra siempre lo mismo que el administrador ve en el panel.
+ */
+async function getRows<T>(table: string, params: Record<string, string>): Promise<T[]> {
+  const query = new URLSearchParams(params).toString();
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      Accept: 'application/json',
+    },
+  });
+
   if (!res.ok) {
-    throw new Error(`Error del servidor (HTTP ${res.status})`);
+    throw new Error(`No se pudo leer "${table}" del panel (HTTP ${res.status})`);
   }
-  return res.json() as Promise<T>;
+
+  return (await res.json()) as T[];
+}
+
+/** Las columnas JSON del panel llegan como texto; las normalizamos a array. */
+function toArray<T>(value: unknown): T[] {
+  if (Array.isArray(value)) return value as T[];
+  if (typeof value === 'string' && value.trim() !== '') {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? (parsed as T[]) : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
+/** Igual que toArray pero para el objeto de dimensiones del producto. */
+function toDimensions(value: unknown): MachineProduct['dimensions'] {
+  const empty = { width: 0, height: 0, depth: 0, weight: 0 };
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    const dim = value as Partial<MachineProduct['dimensions']>;
+    return {
+      width: Number(dim.width) || 0,
+      height: Number(dim.height) || 0,
+      depth: Number(dim.depth) || 0,
+      weight: Number(dim.weight) || 0,
+    };
+  }
+  if (typeof value === 'string' && value.trim() !== '') {
+    try {
+      return toDimensions(JSON.parse(value));
+    } catch {
+      return empty;
+    }
+  }
+  return empty;
 }
 
 // ---------------------------------------------------------------------------
-// Tipos que devuelve la API pública (snake_case = columnas de la BD)
+// Filas tal como las devuelve PostgREST (snake_case = columnas de la BD)
 // ---------------------------------------------------------------------------
 interface PublicAdvisor {
   id: number;
@@ -30,17 +88,29 @@ interface PublicAdvisor {
   position: string;
   image_url: string;
   whatsapp: string;
-  specialties: string[];
+  specialties: string;
 }
 
-export interface PublicProduct extends MachineProduct {
+interface PublicProductRow {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string;
+  pdf_url: string | null;
+  specifications: string;
+  features: string;
+  dimensions: string;
   price: string | number;
 }
 
-interface PublicSparePart extends SparePart {
+interface PublicSparePartRow {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string;
   price: string | number;
-  deleted: boolean;
-  created_at: string;
+  specifications: string;
+  features: string;
 }
 
 interface PublicPromo {
@@ -51,46 +121,69 @@ interface PublicPromo {
   image_url: string;
   valid_until: string;
   media_type: string;
-  display_order: number | null;
+}
+
+export interface PublicProduct extends MachineProduct {
+  price: string | number;
 }
 
 // ---------------------------------------------------------------------------
 // Funciones públicas
 // ---------------------------------------------------------------------------
 export async function fetchAdvisors(): Promise<PublicAdvisor[]> {
-  return getJson<PublicAdvisor[]>('/public/advisors');
+  return getRows<PublicAdvisor>('advisors', {
+    select: 'id,name,position,whatsapp,specialties,image_url',
+    deleted: 'eq.false',
+    order: 'id.asc',
+  });
 }
 
 export async function fetchProducts(): Promise<MachineProduct[]> {
-  const data = await getJson<PublicProduct[]>('/public/products');
-  return data.map((p) => ({
+  const rows = await getRows<PublicProductRow>('machine_products', {
+    select: 'id,name,description,image_url,pdf_url,specifications,features,dimensions',
+    deleted: 'eq.false',
+    order: 'id.desc',
+  });
+
+  return rows.map((p) => ({
     id: p.id,
     name: p.name,
     description: p.description || '',
     image_url: p.image_url || '',
-    pdf_url: p.pdf_url,
-    specifications: p.specifications || [],
-    features: p.features || [],
-    dimensions: p.dimensions || { width: 0, height: 0, depth: 0, weight: 0 },
+    pdf_url: p.pdf_url || undefined,
+    specifications: toArray<{ label: string; value: string }>(p.specifications),
+    features: toArray<string>(p.features),
+    dimensions: toDimensions(p.dimensions),
   }));
 }
 
 export async function fetchSpareParts(): Promise<SparePart[]> {
-  const data = await getJson<PublicSparePart[]>('/public/spare-parts');
-  return data.map((s) => ({
+  const rows = await getRows<PublicSparePartRow>('spare_parts', {
+    select: 'id,name,description,image_url,price,specifications,features',
+    deleted: 'eq.false',
+    order: 'id.desc',
+  });
+
+  return rows.map((s) => ({
     id: s.id,
     name: s.name,
     description: s.description || '',
     image_url: s.image_url || '',
     price: String(s.price ?? ''),
-    specifications: s.specifications || [],
-    features: s.features || [],
+    specifications: toArray<{ label: string; value: string }>(s.specifications),
+    features: toArray<string>(s.features),
   }));
 }
 
 export async function fetchPromotions(): Promise<PromoData[]> {
-  const data = await getJson<PublicPromo[]>('/public/promotions');
-  return data.map((p) => ({
+  const rows = await getRows<PublicPromo>('promotions', {
+    select: 'id,title,subtitle,features,image_url,valid_until,media_type',
+    is_active: 'eq.true',
+    show_in_web: 'eq.true',
+    order: 'display_order.asc',
+  });
+
+  return rows.map((p) => ({
     id: p.id,
     title: p.title,
     subtitle: p.subtitle || '',
