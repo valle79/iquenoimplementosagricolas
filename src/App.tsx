@@ -1163,12 +1163,12 @@ useEffect(() => {
             >
               Desarrollado por{' '}
               <a
-                href="https://portafolioluisvalle.netlify.app/"
+                href="https://karvatech.netlify.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium underline decoration-dotted underline-offset-4 transition-colors duration-300 hover:text-white"
               >
-                Luis Valle
+                KARVATECH SOLUTIONS
               </a>
             </motion.p>
           </div>
