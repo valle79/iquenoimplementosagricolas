@@ -10,6 +10,31 @@ interface PromoModalProps {
   onClose: () => void;
 }
 
+// El texto de la promoción llega como texto plano con saltos de línea.
+// Lo separamos en líneas para poder maquetarlas una por una.
+const splitLines = (text: string): string[] =>
+  text
+    .split(/\r\n|\r|\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+
+// El cierre de la descripción (teléfono, web, dirección, cierre comercial y
+// firma de la empresa) ya aparece en el resto de la web, así que en el modal
+// solo mostramos la introducción y la lista de ventajas (líneas con ✅).
+const getDescriptionLines = (text: string): string[] => {
+  const lines = splitLines(text);
+
+  let end = lines.length;
+  for (let i = lines.length - 1; i >= 0; i--) {
+    if (lines[i].startsWith('\u2705')) {
+      end = i + 1;
+      break;
+    }
+  }
+
+  return lines.slice(0, end);
+};
+
 const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
@@ -293,14 +318,18 @@ const PromoModal: React.FC<PromoModalProps> = ({ onClose }) => {
                   </motion.div>
 
                   {/* Description */}
-                  <motion.p
-                    className="mt-3 md:mt-4 text-gray-600 leading-relaxed text-sm"
+                  <motion.div
+                    className="mt-3 md:mt-4 text-gray-600 leading-relaxed text-sm min-h-0 flex-1 overflow-y-auto pr-1"
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.4 }}
                   >
-                    {currentPromo.features}
-                  </motion.p>
+                    {getDescriptionLines(currentPromo.features).map((line, i) => (
+                      <p key={i} className="break-words mb-1.5 last:mb-0">
+                        {line}
+                      </p>
+                    ))}
+                  </motion.div>
 
                   {/* CTA Button - Solo WhatsApp */}
                   <motion.div
